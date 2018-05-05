@@ -24,7 +24,7 @@ function mkPubkeyHashReplayScript(address, pubKeyHash) {
     var addrHex = bs58check.decode(address).toString('hex');
 
     // Cut out pubKeyHash
-    var subAddrHex = addrHex.substring(pubKeyHash.length, addrHex.length);
+    var subAddrHex = addrHex.substring(2, addrHex.length);
 
     // Minimal encoding
 
@@ -42,12 +42,12 @@ function mkPubkeyHashReplayScript(address, pubKeyHash) {
  */
 function mkScriptHashReplayScript(address) {
     var addrHex = bs58check.decode(address).toString('hex');
-    var subAddrHex = addrHex.substring(4, addrHex.length); // Cut out the '00' (we also only want 14 bytes instead of 16)
+    var subAddrHex = addrHex.substring(2, addrHex.length); // Cut out the '00' (we also only want 14 bytes instead of 16)
 
 
 
     // '14' is the length of the subAddrHex (in bytes)
-    return zopcodes.OP_DUP + zopcodes.OP_HASH160 + zbufferutils.getStringBufferLength(subAddrHex) + subAddrHex + zopcodes.OP_EQUALVERIFY + zopcodes.OP_CHECKSIG;
+    return zopcodes.OP_HASH160 + zbufferutils.getStringBufferLength(subAddrHex) + subAddrHex + zopcodes.OP_EQUAL;
 
 }
 
@@ -59,7 +59,7 @@ function mkScriptHashReplayScript(address) {
  */
 function addressToScript(address) {
     // P2SH replay starts with a 's', or 't'
-    if (address[1] === 's' || address[0] === 't') {
+    if (address[0] === 'b' || address[0] === 'c') {
         return mkScriptHashReplayScript(address);
     }
 
