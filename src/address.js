@@ -1,5 +1,3 @@
-// @flow
-
 var bs58check = require('bs58check');
 var secp256k1 = require('secp256k1');
 var bigi = require('bigi');
@@ -63,10 +61,10 @@ function WIFToPrivKey(wifPk) {
 }
 
 /*
- * Converts public key to komodo address
+ * Converts public key to zencash address
  * @param {String} pubKey (public key)
  * @param {String} pubKeyHash (public key hash (optional, else use defaul))
- * @return {Sting} komodo address
+ * @return {Sting} zencash address
  */
 function pubKeyToAddr(pubKey, pubKeyHash) {
   pubKeyHash = pubKeyHash || zconfig.mainnet.pubKeyHash;
